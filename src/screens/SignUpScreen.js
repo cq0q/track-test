@@ -1,38 +1,28 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Button, Input, Text } from 'react-native-elements';
-import Spacer from '../components/Spacer';
+import { Context as AuthContext } from '../context/AuthContext';
+import AuthForm from '../components/AuthForm';
+import NavLink from '../components/NavLink';
 
 
 const SignUpScreen = ({ navigation }) => {
-    const [email, setEmail] = useState ('')
-    const [password, setPassword] = useState ('')
+    const {state, signup} = useContext(AuthContext);
+
+
 
     return (
 // Spacer is a component that i made in component folder, it is another way of having margin style instead of actually having to type the margin style for each component
        <View style = {styles.container}>
-          <Spacer>
-             <Text h3>Sign Up for Tracker</Text>
-          </Spacer>
-          <Input
-            label= "Email"
-            value= {email}
-            onChangeText= {setEmail}
-            autoCapitalize= 'none'
-            autoCorrect = {false}
-          />
-          <Spacer />
-          <Input
-            label="Password"
-            value={password}
-            onChangeText={setPassword}
-            autoCapitalize='none'
-            autoCorrect= {false}
-            secureTextEntry= {true}  // this is to hide the password when you type on password field
-          />
-          <Spacer>
-             <Button title="Sign Up" ></Button>
-          </Spacer>
+        <AuthForm
+        headerText="Sign Up for Tracker"
+        errorMessage={state.errorMessage}
+        submitButtonText="Sign Up"
+        onSubmit={signup}
+        />
+        <NavLink
+        text= "Already have an account? Sign in instead!"
+        routeName="Signin"
+        />
        </View>
     );
 };
